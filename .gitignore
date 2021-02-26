@@ -138,5 +138,9 @@ dmypy.json
 # profiling data
 .prof
 
+# mutpy
+mutpy
+mutpy.yaml
+
 ## PyCharm ##
 .idea/

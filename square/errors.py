@@ -105,6 +105,8 @@ class SquareException(Exception):
 class ClientException(SquareException):
     pass
 
+class NotFoundError(ClientException):
+    pass
 
 class HttpException(SquareException):
     def __init__(self, *, error):

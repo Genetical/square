@@ -123,7 +123,7 @@ class HTTPClient:
         else:
             raise ValueError(f"Invalid environment '{environment}'")
 
-    def request(self, route, *, json_data=None, **kwargs):
+    def request(self, route, *, json=None, **kwargs):
         method = route.method
         url = route.url
         log.debug(f"{method} {url} sending {kwargs.get('json', {})}")
@@ -140,9 +140,9 @@ class HTTPClient:
 
         kwargs["headers"] = headers
 
-        if json_data is not None:
+        if json is not None:
             # Can't use the json param of request as it does not support using a custom encoder.
-            data = json.dumps(json_data, cls=SquareEncoder)
+            data = dumps(json, cls=SquareEncoder)
             kwargs.update({"data": data})
 
         r = self.__session.request(method, url, **kwargs)
@@ -218,8 +218,7 @@ class HTTPClient:
             "PUT",
             "v2/customers/{customer_id}",
             customer_id=customer_id,
-            json=payload,
-        ))
+        ), json=payload)
 
     def delete_customer(self, customer_id):
         return self.request(self.Route("DELETE", "v2/customers/{customer_id}", customer_id=customer_id))

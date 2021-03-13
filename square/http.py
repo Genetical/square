@@ -214,14 +214,19 @@ class HTTPClient:
         )
         payload = {k: v for k, v in options.items() if k in valid_keys}
 
-        return self.request(self.Route(
-            "PUT",
-            "v2/customers/{customer_id}",
-            customer_id=customer_id,
-        ), json=payload)
+        return self.request(
+            self.Route(
+                "PUT",
+                "v2/customers/{customer_id}",
+                customer_id=customer_id,
+            ),
+            json=payload,
+        )
 
     def delete_customer(self, customer_id):
-        return self.request(self.Route("DELETE", "v2/customers/{customer_id}", customer_id=customer_id))
+        return self.request(
+            self.Route("DELETE", "v2/customers/{customer_id}", customer_id=customer_id)
+        )
 
     def search_customer(self, **filters):
         valid_keys = ("cursor", "limit", "query")
@@ -230,7 +235,9 @@ class HTTPClient:
         return self.request(self.Route("POST", "v2/customers/search"), json=payload)
 
     def get_customer(self, customer_id):
-        return self.request(self.Route("GET", "v2/customers/{customer_id}", customer_id=customer_id))
+        return self.request(
+            self.Route("GET", "v2/customers/{customer_id}", customer_id=customer_id)
+        )
 
     def create_card(self, customer_id, **options):
         valid_keys = (
@@ -242,17 +249,22 @@ class HTTPClient:
 
         payload = {k: v for k, v in options.items() if k in valid_keys}
 
-        return self.request(self.Route(
-            "POST", "v2/customers/{customer_id}/cards", customer_id=customer_id
-        ), json=payload)
+        return self.request(
+            self.Route(
+                "POST", "v2/customers/{customer_id}/cards", customer_id=customer_id
+            ),
+            json=payload,
+        )
 
     def delete_card(self, customer_id, card_id):
-        return self.request(self.Route(
-            "DELETE",
-            "v2/customers/{customer_id}/cards/{card_id}",
-            customer_id=customer_id,
-            card_id=card_id,
-        ))
+        return self.request(
+            self.Route(
+                "DELETE",
+                "v2/customers/{customer_id}/cards/{card_id}",
+                customer_id=customer_id,
+                card_id=card_id,
+            )
+        )
 
     def list_groups(self):
         return self.request(self.Route("GET", "v2/customers/groups"))
@@ -266,38 +278,51 @@ class HTTPClient:
         return self.request(self.Route("POST", "v2/customers/groups"), json=payload)
 
     def delete_group(self, group_id):
-        return self.request(self.Route("DELETE", "v2/customers/groups/{group_id}", group_id=group_id))
+        return self.request(
+            self.Route("DELETE", "v2/customers/groups/{group_id}", group_id=group_id)
+        )
 
     def fetch_group(self, group_id):
-        return self.request(self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id))
+        return self.request(
+            self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id)
+        )
 
     def update_group(self, group_id, **options):
         valid_keys = ("group",)
 
         payload = {k: v for k, v in options.items() if k in valid_keys}
 
-        return self.request(self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id), json=payload)
+        return self.request(
+            self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id),
+            json=payload,
+        )
 
     def assign_group(self, customer_id, group_id):
-        return self.request(self.Route(
-            "PUT",
-            "v2/customers/{customer_id}/groups/{group_id}",
-            customer_id=customer_id,
-            group_id=group_id,
-        ))
+        return self.request(
+            self.Route(
+                "PUT",
+                "v2/customers/{customer_id}/groups/{group_id}",
+                customer_id=customer_id,
+                group_id=group_id,
+            )
+        )
 
     def unassign_group(self, customer_id, group_id):
-        return self.request(self.Route(
-            "DELETE",
-            "v2/customers/{customer_id}/groups/{group_id}",
-            customer_id=customer_id,
-            group_id=group_id,
-        ))
+        return self.request(
+            self.Route(
+                "DELETE",
+                "v2/customers/{customer_id}/groups/{group_id}",
+                customer_id=customer_id,
+                group_id=group_id,
+            )
+        )
 
     def list_customer_segments(self):
         return self.request(self.Route("GET", "v2/customers/segments"))
 
     def fetch_customer_segment(self, segment_id):
-        return self.request(self.Route(
-            "GET", "v2/customers/segments/{segment_id}", segment_id=segment_id
-        ))
+        return self.request(
+            self.Route(
+                "GET", "v2/customers/segments/{segment_id}", segment_id=segment_id
+            )
+        )

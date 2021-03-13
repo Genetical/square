@@ -94,7 +94,7 @@ class Customer(SquareObject):
         return self._http.delete_customer(self.id)
 
     @classmethod
-    def create(cls, http, **options):
+    def _create(cls, http, **options):
         required_identifier = (
             "given_name",
             "family_name",

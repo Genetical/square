@@ -149,7 +149,7 @@ class Customers(SubEndpoint):
         At least one of the following parameters must be given:
             given_name, family_name, company_name, email_address, phone_number
         """
-        return Customer.create(self._http, **options)
+        return Customer._create(self._http, **options)
 
     def search(
         self, *, limit=None, order=None, sort_by=None, fetch_all=False, **filters

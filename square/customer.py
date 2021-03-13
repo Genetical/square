@@ -9,6 +9,33 @@ from square.objects import Address
 from square.ABC import SquareObject
 
 
+class Birthday:
+    __slots__ = ("month", "day", "_timestamp", "_dto")
+
+    def __repr__(self):
+        return f"<Birthday(month={self.month}, day={self.day})>"
+
+    @classmethod
+    def from_timestamp(cls, timestamp):
+        self = object.__new__(cls)
+        self._timestamp = timestamp
+
+        if timestamp.startswith("0000"):
+            timestamp = "0004" + timestamp[5:]
+
+        self._dto = parser.parse(timestamp)
+        self.month = self._dto.month
+        self.day = self._dto.day
+
+    def isoformat(self):
+        timestamp = self._dto.isoformat()
+
+        if timestamp.startswith("0004"):
+            timestamp = "0000" + timestamp[5:]
+
+        return timestamp
+
+
 class Customer(SquareObject):
     __slots__ = (
         "id",

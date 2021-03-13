@@ -41,7 +41,8 @@ class Card:
 
     def _from_data(self, card):
         self.id = card.get("id")
-        self.billing_address = Address(data=card.get("billing_address", {}))
+        _ = card.get("billing_address")
+        self.billing_address = Address(data=_) if _ is not None else _
         self.bin = card.get("bin")
         self.card_brand = try_enum(CardBrand, card.get("card_brand"))
         self.card_type = card.get("card_type")

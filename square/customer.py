@@ -64,7 +64,8 @@ class Customer(SquareObject):
 
     def _from_data(self, customer):
         self.id = customer.get("id")
-        self.address = Address(data=customer.get("address", {}))
+        _ = customer.get("address")
+        self.address = Address(data=_) if _ is not None else _
         _ = customer.get("birthday")
         self.birthday = yr_naive(_) if _ is not None else _
         self.cards = Cards(

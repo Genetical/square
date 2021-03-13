@@ -18,6 +18,7 @@
 from dateutil import parser
 from square.ABC import SquareObject
 
+
 class Segment(SquareObject):
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")
 
@@ -26,11 +27,7 @@ class Segment(SquareObject):
         self.name = data.get("name")
 
         _ = data.get("created_at")
-        self.updated_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.updated_at = parser.parse(_) if _ is not None else _
 
         _ = data.get("updated_at")
-        self.updated_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.updated_at = parser.parse(_) if _ is not None else _

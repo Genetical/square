@@ -21,13 +21,7 @@ from square.ABC import SquareObject
 
 
 class Group(SquareObject):
-    __slots__ = (
-        "id",
-        "name",
-        "created_at",
-        "updated_at",
-        "_http"
-    )
+    __slots__ = ("id", "name", "created_at", "updated_at", "_http")
 
     def __repr__(self):
         return f"<Group(id={self.id}, name={self.name})>"
@@ -36,14 +30,10 @@ class Group(SquareObject):
         self.id = group.get("id")
         self.name = group.get("name")
         _ = group.get("created_at")
-        self.created_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.created_at = parser.parse(_) if _ is not None else _
 
         _ = group.get("updated_at")
-        self.updated_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.updated_at = parser.parse(_) if _ is not None else _
 
     @classmethod
     def create(cls, http, **options):

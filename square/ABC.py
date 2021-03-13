@@ -16,6 +16,7 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 #  DEALINGS IN THE SOFTWARE.
 
+
 class SquareObject:
     def __init__(self, *, data, http):
         self._http = http
@@ -23,3 +24,14 @@ class SquareObject:
 
     def _from_data(self, data):
         return NotImplemented
+
+
+class SubEndpoint:
+    def __init__(self, http_client):
+        self._http = http_client
+
+    def list(self, **options):
+        return NotImplemented
+
+    def __iter__(self):
+        return self.list()

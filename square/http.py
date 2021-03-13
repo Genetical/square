@@ -201,7 +201,10 @@ class HTTPClient:
 
         return self.request(
             self.Route(
-                "PUT", "v2/customers/{customer_id}", customer_id=customer_id, json=payload
+                "PUT",
+                "v2/customers/{customer_id}",
+                customer_id=customer_id,
+                json=payload,
             )
         )
 
@@ -249,12 +252,7 @@ class HTTPClient:
         )
 
     def list_groups(self):
-        return self.request(
-            self.Route(
-                "GET",
-                "v2/customers/groups"
-            )
-        )
+        return self.request(self.Route("GET", "v2/customers/groups"))
 
     @idempotent
     def create_group(self, **options):
@@ -263,26 +261,18 @@ class HTTPClient:
         payload = {k: v for k, v in options.items() if k in valid_keys}
 
         return self.request(
-            self.Route(
-                "POST", "v2/customers/groups"
-            ),
+            self.Route("POST", "v2/customers/groups"),
             json=payload,
         )
 
     def delete_group(self, group_id):
         return self.request(
-            self.Route(
-                "DELETE", "v2/customers/groups/{group_id}",
-                group_id=group_id
-            )
+            self.Route("DELETE", "v2/customers/groups/{group_id}", group_id=group_id)
         )
 
     def fetch_group(self, group_id):
         return self.request(
-            self.Route(
-                "GET", "v2/customers/groups/{group_id}",
-                group_id=group_id
-            )
+            self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id)
         )
 
     def update_group(self, group_id, **options):
@@ -291,11 +281,8 @@ class HTTPClient:
         payload = {k: v for k, v in options.items() if k in valid_keys}
 
         return self.request(
-            self.Route(
-                "GET", "v2/customers/groups/{group_id}",
-                group_id=group_id
-            ),
-            json=payload
+            self.Route("GET", "v2/customers/groups/{group_id}", group_id=group_id),
+            json=payload,
         )
 
     def assign_group(self, customer_id, group_id):
@@ -304,7 +291,7 @@ class HTTPClient:
                 "PUT",
                 "v2/customers/{customer_id}/groups/{group_id}",
                 customer_id=customer_id,
-                group_id=group_id
+                group_id=group_id,
             )
         )
 
@@ -314,23 +301,16 @@ class HTTPClient:
                 "DELETE",
                 "v2/customers/{customer_id}/groups/{group_id}",
                 customer_id=customer_id,
-                group_id=group_id
+                group_id=group_id,
             )
         )
 
     def list_customer_segments(self):
-        return self.request(
-            self.Route(
-                "GET",
-                "v2/customers/segments"
-            )
-        )
+        return self.request(self.Route("GET", "v2/customers/segments"))
 
     def fetch_customer_segment(self, segment_id):
         return self.request(
             self.Route(
-                "GET",
-                "v2/customers/segments/{segment_id}",
-                segment_id=segment_id
+                "GET", "v2/customers/segments/{segment_id}", segment_id=segment_id
             )
         )

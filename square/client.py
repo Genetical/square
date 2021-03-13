@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from square import http
+from square.ABC import SubEndpoint
 from square.customer import Customer
 from square.errors import *
 from square.group import Group
@@ -37,15 +38,6 @@ class GroupQuery:
 
         return r
 
-class SubEndpoint:
-    def __init__(self, http_client):
-        self._http = http_client
-
-    def list(self, **options):
-        return NotImplemented
-
-    def __iter__(self):
-        return self.list()
 
 class Customers(SubEndpoint):
     """Represents the customer sub-endpoint.
@@ -63,7 +55,6 @@ class Customers(SubEndpoint):
     fetch(customer_id)
         Returns a customer with the given id.
     """
-
 
     def __repr__(self):
         return "<CustomerGenerator>"
@@ -160,7 +151,9 @@ class Customers(SubEndpoint):
         """
         return Customer.create(self._http, **options)
 
-    def search(self, *, limit=None, order=None, sort_by=None, fetch_all=False, **filters):
+    def search(
+        self, *, limit=None, order=None, sort_by=None, fetch_all=False, **filters
+    ):
         """Searches for Customers.
 
         Returns a list of Customers which met the filters specified.
@@ -346,7 +339,9 @@ class Customers(SubEndpoint):
         while True:
             resp = self._http.search_customer(**options)
             if fetch_all:
-                customers += [Customer(data=c, http=self._http) for c in resp.get("customers", [])]
+                customers += [
+                    Customer(data=c, http=self._http) for c in resp.get("customers", [])
+                ]
             else:
                 for c in resp.get("customers", []):
                     yield Customer(data=c, http=self._http)
@@ -362,6 +357,7 @@ class Customers(SubEndpoint):
 
     def fetch(self, customer_id):
         return Customer(data=self._http.get_customer(customer_id), http=self._http)
+
 
 class Groups(SubEndpoint):
     def __repr__(self):
@@ -407,8 +403,9 @@ class CustomerSegments(SubEndpoint):
                 break
 
     def fetch(self, segment_id):
-        return Segment(data=self._http.fetch_customer_segment(segment_id), http=self._http)
-
+        return Segment(
+            data=self._http.fetch_customer_segment(segment_id), http=self._http
+        )
 
 
 class SquareClient:
@@ -446,4 +443,3 @@ class SquareClient:
     @property
     def groups(self):
         return self.__groups
-

@@ -8,6 +8,7 @@ from square.card import Card, Cards
 from square.objects import Address
 from square.ABC import SquareObject
 
+
 class Customer(SquareObject):
     __slots__ = (
         "id",
@@ -38,9 +39,7 @@ class Customer(SquareObject):
         self.id = customer.get("id")
         self.address = Address(data=customer.get("address", {}))
         _ = customer.get("birthday")
-        self.birthday = (
-            yr_naive(_) if _ is not None else _
-        )
+        self.birthday = yr_naive(_) if _ is not None else _
         self.cards = Cards(
             [
                 Card(data=data, http=self._http, customer=self)
@@ -51,9 +50,7 @@ class Customer(SquareObject):
         )
         self.company_name = customer.get("company_name")
         _ = customer.get("created_at")
-        self.created_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.created_at = parser.parse(_) if _ is not None else _
         self.creation_source = try_enum(CreationSource, customer.get("creation_source"))
         self.email_source = customer.get("email_address")
         self.family_name = customer.get("family_name")
@@ -66,9 +63,7 @@ class Customer(SquareObject):
         self.reference_id = customer.get("reference_id")
         self.segment_ids = customer.get("segment_ids", [])
         _ = customer.get("updated_at")
-        self.updated_at = (
-            parser.parse(_) if _ is not None else _
-        )
+        self.updated_at = parser.parse(_) if _ is not None else _
 
     @property
     def name(self):
@@ -132,7 +127,9 @@ class Customer(SquareObject):
         elif isinstance(group, str):
             group_id = group
         else:
-            raise InvalidArgument(f"Unsupported type {type(group)} for argument group, must be str or Group.")
+            raise InvalidArgument(
+                f"Unsupported type {type(group)} for argument group, must be str or Group."
+            )
         self._http.assign_group(self.id, group_id)
         self.group_ids.append(group_id)
 
@@ -142,7 +139,9 @@ class Customer(SquareObject):
         elif isinstance(group, str):
             group_id = group
         else:
-            raise InvalidArgument(f"Unsupported type {type(group)} for argument group, must be str or Group.")
+            raise InvalidArgument(
+                f"Unsupported type {type(group)} for argument group, must be str or Group."
+            )
         self._http.unassign_group(self.id, group_id)
         self.group_ids.remove(group_id)
 

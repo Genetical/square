@@ -1,5 +1,5 @@
 import logging
-import json
+from json import dumps, JSONEncoder
 from datetime import datetime
 
 import requests
@@ -12,7 +12,7 @@ import uuid
 log = logging.getLogger(__name__)
 
 
-class SquareEncoder(json.JSONEncoder):
+class SquareEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, (Birthday, datetime)):
             return o.isoformat()

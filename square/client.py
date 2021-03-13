@@ -374,6 +374,7 @@ class Groups(SubEndpoint):
     fetch(group_id)
         Returns a Group with the given id if it exists.
     """
+
     def __repr__(self):
         return "<CustomerGroups>"
 
@@ -398,7 +399,6 @@ class Groups(SubEndpoint):
         return Group.create(self._http, **options)
 
 
-
 class CustomerSegments(SubEndpoint):
     """Represents the Customer Segments sub-endpoints
 
@@ -412,6 +412,7 @@ class CustomerSegments(SubEndpoint):
     fetch(group_id)
         Returns a customer with the given id.
     """
+
     def __repr__(self):
         return "<CustomerSegments>"
 

@@ -360,6 +360,20 @@ class Customers(SubEndpoint):
 
 
 class Groups(SubEndpoint):
+    """Represents the Group sub-endpoints
+
+    Multi-function class representing the group endpoints while providing
+    idiomatic interfaces for the user.
+
+    Methods
+    -------
+    list(**options)
+        Returns a generator of Groups.
+    create(**options)
+        Creates a new Group.
+    fetch(group_id)
+        Returns a Group with the given id if it exists.
+    """
     def __repr__(self):
         return "<CustomerGroups>"
 
@@ -384,7 +398,20 @@ class Groups(SubEndpoint):
         return Group.create(self._http, **options)
 
 
+
 class CustomerSegments(SubEndpoint):
+    """Represents the Customer Segments sub-endpoints
+
+    Multi-function class representing the Customer Segment endpoints while providing
+    idiomatic interfaces for the user.
+
+    Methods
+    -------
+    list(**options)
+        Returns a generator of customers.
+    fetch(group_id)
+        Returns a customer with the given id.
+    """
     def __repr__(self):
         return "<CustomerSegments>"
 
@@ -433,13 +460,5 @@ class SquareClient:
         self._client = http.HTTPClient(self._token, environment, api_version)
         self.api_version = api_version
 
-        self.__customers = Customers(self._client)
-        self.__groups = Groups(self._client)
-
-    @property
-    def customers(self):
-        return self.__customers
-
-    @property
-    def groups(self):
-        return self.__groups
+        self.customers: Customers = Customers(self._client)
+        self.groups: Groups = Groups(self._client)

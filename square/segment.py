@@ -1,5 +1,3 @@
-from dateutil import parser
-from square.ABC import SquareObject
 """
 The MIT License (MIT)
 Copyright (c) 2021-present Genetical
@@ -19,17 +17,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+from square.ABC import SquareObject, CreateUpdatedAtMixin
 
 
-class Segment(SquareObject):
+class Segment(CreateUpdatedAtMixin, SquareObject):
+
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")
-
-    def _from_data(self, data):
-        self.id = data.get("id")
-        self.name = data.get("name")
-
-        _ = data.get("created_at")
-        self.updated_at = parser.parse(_) if _ is not None else _
-
-        _ = data.get("updated_at")
-        self.updated_at = parser.parse(_) if _ is not None else _

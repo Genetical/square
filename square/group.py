@@ -1,4 +1,3 @@
-class Group(SquareObject):
 """
 The MIT License (MIT)
 Copyright (c) 2021-present Genetical
@@ -18,28 +17,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+from square.ABC import SquareObject, CreateUpdatedAtMixin
+from square.http import idempotent
+
+
+class Group(CreateUpdatedAtMixin, SquareObject):
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")
 
     def __repr__(self):
         return f"<Group(id={self.id}, name={self.name})>"
 
-    def _from_data(self, group):
-        self.id = group.get("id")
-        self.name = group.get("name")
-        _ = group.get("created_at")
-        self.created_at = parser.parse(_) if _ is not None else _
-
-        _ = group.get("updated_at")
-        self.updated_at = parser.parse(_) if _ is not None else _
-
     @classmethod
-    def create(cls, http, **options):
-        try:
-            name = options["name"]
-        except KeyError:
-            raise ValueError("Missing required argument name")
-
-        data = {"group": {"name": name}}
+    def _create(cls, http, idempotency_key, *, name, **group):
+        data = {"group": {**group},
+                "idempotency_key": idempotency_key
+                }
+        data.update({"name": name})
 
         resp = http.create_group(group=data)
 
@@ -56,6 +49,8 @@ DEALINGS IN THE SOFTWARE.
 
         for field, value in resp.get("group", {}).items():
             self.__setattr__(field, value)
+
+        return self
 
     def delete(self):
         return self._http.delete_group(self.id)

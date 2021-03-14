@@ -1,4 +1,3 @@
-class SquareObject:
 """
 The MIT License (MIT)
 Copyright (c) 2021-present Genetical
@@ -18,19 +17,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+from abc import ABCMeta, abstractmethod
+from dateutil import parser
+
+
 class SquareObject(metaclass=ABCMeta):
+
     def __init__(self, *, data, http):
         self._http = http
         self._from_data(data)
 
-    def _from_data(self, data):
+    @classmethod
+    @abstractmethod
+    def _from_data(cls, data):
+        return NotImplemented
+
+    @abstractmethod
+    def _to_dict(self):
         return NotImplemented
 
 
-class SubEndpoint:
-    def __init__(self, http_client):
-        self._http = http_client
+class CreateUpdatedAtMixin:
+    def _from_data(self, group):
+        self.id = group.get("id")
+        self.name = group.get("name")
+        _ = group.get("created_at")
+        self.created_at = parser.parse(_) if _ is not None else _
 
+        _ = group.get("updated_at")
+        self.updated_at = parser.parse(_) if _ is not None else _
+
+
+class SubEndpoint(metaclass=ABCMeta):
+
+    def __init__(self, http):
+        self._http = http
+
+    @abstractmethod
     def list(self, **options):
         return NotImplemented
 

@@ -19,13 +19,12 @@ DEALINGS IN THE SOFTWARE.
 """
 from dateutil import parser
 
-from square.group import Group
-from square.helpers import yr_naive
+from square.ABC import SquareObject
+from square.card import Card, Cards
 from square.enums import CreationSource, try_enum
 from square.errors import InvalidArgument
-from square.card import Card, Cards
+from square.group import Group
 from square.objects import Address
-from square.ABC import SquareObject
 
 
 class Birthday:
@@ -114,7 +113,8 @@ class Birthday:
         """
         timestamp = self._dto.isoformat()
 
-        if timestamp.startswith("0004"):
+        # Assume all years below 1000 are not valid.
+        if int(timestamp[0:4]) < 1000:
             timestamp = "0000" + timestamp[5:]
 
         return timestamp
@@ -213,7 +213,7 @@ class Customer(SquareObject):
         _ = customer.get("address")
         self.address = Address(data=_) if _ is not None else _
         _ = customer.get("birthday")
-        self.birthday = yr_naive(_) if _ is not None else _
+        self.birthday = Birthday.from_timestamp(_) if _ is not None else _
         self.cards = Cards(
             [
                 Card(data=data, http=self._http, customer=self)

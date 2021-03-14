@@ -21,5 +21,19 @@ from square.ABC import SquareObject, CreateUpdatedAtMixin
 
 
 class Segment(CreateUpdatedAtMixin, SquareObject):
+    """Represents a group of customers who meet a criteria set.
+    These segments (also known as Smart Groups) are defined and created
+    within Customer Directory in the Square Dashboard or Point of Sale.
 
+    Attributes
+    ----------
+    id: str
+       Unique Square-generated ID for the segment.
+    name: str
+        Name of the segment.
+    created_at: datetime
+        The timestamp when the segment was created.
+    updated_at: datetime
+        The timestamp when the segment was last updated.
+    """
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")

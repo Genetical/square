@@ -24,6 +24,51 @@ class Address:
     def __init__(self, *, data):
         self._from_data(data)
 
+    """Represents a physical address.
+
+    Attributes
+    ----------
+    address_line_1: str
+        The first line of the address.
+    address_line_2: str, optional
+        The second line of the address.
+    address_line_3: str, optional
+        The third line of the address.
+    administrative_district_level_1: str
+        A civil entity within the address's country.
+        In the US, this is the state.
+    administrative_district_level_2: str
+        A civil entity within the address's
+        `administrative_district_level_1`.
+        In the US, this is the county.
+    administrative_district_level_3: str
+        A civil entity within the address's
+        `administrative_district_level_2`.
+    country: pycountry.db.Country
+        The address's country
+    first_name: str, optional
+        First name when it's representing recipient.
+    last_name: str, optional
+        Last name when it's representing recipient.
+    locality: str
+        The city or town of the address.
+    organization: str, optional
+        Organization name when it's representing recipient.
+    postal_code: str
+        The address's postal code.
+    sublocality: str, optional
+    A civil region within the address's locality.
+    sublocality_2: str, optional
+        A civil region within the address's sublocality.
+    sublocality_3: str, optional
+        A civil region within the address's sublocality_2.
+    name: str, optional
+        Returns a full name (if available).
+    district: str, optional
+        Returns a full district (if available).
+    full_address: str, optional
+        Returns a full address (if available).
+    """
     def _from_data(self, address):
         self.address_line_1 = address.get("address_line_1")
         self.address_line_2 = address.get("address_line_2")
@@ -53,6 +98,17 @@ class Address:
     @property
     def name(self):
         return (
+        """Attempts to construct a full name.
+
+        Will return the first name and last name as a string or just
+        the first name if no last name exists or None if neither are
+        available.
+
+        Returns
+        -------
+        str or None:
+            The full name of the person (If available).
+        """
             f"{self.first_name} {self.last_name}"
             if self.last_name is not None
             else self.first_name
@@ -61,6 +117,17 @@ class Address:
     @property
     def district(self):
         return ",".join(
+        """Attempts to construct a full district name.
+
+        Will return all three administrative districts separated by
+        commas. If any are none, they will be skipped. None will be
+        returned if no administrative district is set.
+
+        Returns
+        -------
+        str or None:
+            The full administrative district
+        """
             filter(
                 None,
                 (
@@ -74,6 +141,17 @@ class Address:
     @property
     def full_address(self):
         return "\n".join(
+        """Attempts to construct a full user address.
+
+        Follows the standard format of an international address.
+        Each element is separated by a new line and only added
+        if it is not None.
+
+        Returns
+        -------
+        str or None:
+            A fully qualified physical address (Or less).
+        """
             [
                 line
                 for line in (

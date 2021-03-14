@@ -22,6 +22,11 @@ from dateutil import parser
 
 
 class SquareObject(metaclass=ABCMeta):
+    """ABC for all Square API objects.
+
+    This Abstract Base Class is inherited by all Square Object
+    implementations.
+    """
 
     def __init__(self, *, data, http):
         self._http = http
@@ -38,6 +43,11 @@ class SquareObject(metaclass=ABCMeta):
 
 
 class CreateUpdatedAtMixin:
+    """Mixin for Square Objects
+
+    Implements _from_data when the only attributes are:
+    id, name, created_at & updated_at
+    """
     def _from_data(self, group):
         self.id = group.get("id")
         self.name = group.get("name")
@@ -49,12 +59,30 @@ class CreateUpdatedAtMixin:
 
 
 class SubEndpoint(metaclass=ABCMeta):
+    """Represents a collection of endpoints
+
+    This class is used to house a logical collection of endpoints,
+    permitting an OOP interface with the API
+
+    """
 
     def __init__(self, http):
         self._http = http
 
     @abstractmethod
     def list(self, **options):
+        """Will list all elements within an endpoint.
+
+        Fetches and yields objects or results from an endpoint if it is
+        supported. Uses an API call.
+
+        Notes:
+            This method will use an API call. If you would prefer to
+            use an internal cache of the last API call, refer to the
+            sub-classed object docstring to see if it is supported.
+
+        TODO: Function constructor in this ABC to mitigate the repeated code in `list` subclass methods.
+        """
         return NotImplemented
 
     def __iter__(self):

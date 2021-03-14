@@ -22,6 +22,28 @@ from square.http import idempotent
 
 
 class Group(CreateUpdatedAtMixin, SquareObject):
+    """Represents a group of customer profiles.
+
+    Represents a customer group belonging to the current merchant.
+
+    Attributes
+    ----------
+    id: str
+        Unique Square-generated ID for the customer group.
+    name: str
+        Name of the customer group.
+    created_at: datetime
+        The timestamp when the customer group was created.
+    updated_at: datetime
+        The timestamp when the customer group was last updated.
+
+    Methods
+    -------
+    edit(**options)
+        Updates a customer group.
+    delete()
+        Deletes a customer group.
+    """
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")
 
     def __repr__(self):
@@ -39,6 +61,28 @@ class Group(CreateUpdatedAtMixin, SquareObject):
         return cls(data=resp.get("group", {}), http=http)
 
     def edit(self, **options):
+        """Updates a customer group.
+
+        Parameters
+        ----------
+        id: int
+        name: str
+        created_at: datetime
+        updated_at: datetime
+
+        Returns
+        -------
+        Group
+            The updated group
+
+        Notes
+        -----
+        You can discard the return as this object will also be updated.
+        """
+
+        if not options:
+            return self
+
         fields = {"group": {}}
 
         name = options.get("name")
@@ -53,4 +97,5 @@ class Group(CreateUpdatedAtMixin, SquareObject):
         return self
 
     def delete(self):
+        """Deletes a customer group."""
         return self._http.delete_group(self.id)

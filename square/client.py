@@ -28,6 +28,34 @@ from square.segment import Segment
 
 
 class FuzzyQuery:
+    """A filter object used for performing fuzzy queries.
+
+    This object can be passed into as a parameter if supported and
+    allows the user to perform a fuzzy, token based query. search
+    queries are tokenized, and then each query token must be matched
+    somewhere in the searched attribute. For single token queries, this
+    is effectively the same behavior as a partial match operation.
+
+    Attributes
+    ----------
+    field: str
+        The query submit (e.g: a partial email or name)
+    fuzzy: bool, default=False
+        Switch to enable fuzzy querying. This is done to permit users
+        to always wrap their queries with this object and decide
+        whether to make a fuzzy request dynamically.
+
+    Notes
+    -----
+    This object should only be used on fields which support Fuzzy
+    Querying.
+
+    Methods
+    -------
+    as_query()
+        Returns a dictionary TextFilter to be sent to the API.
+
+    """
     def __init__(self, field, *, fuzzy=False):
         self.field = field
         self.fuzzy = fuzzy
@@ -44,6 +72,25 @@ class GroupQuery:
         self._any = any
         self._all = all
         self._none = none
+    """A filter to select entities based on their group membership.
+
+    You can use any combination of the parameters.
+
+    Parameters
+    ----------
+    any_: List[str]
+        A list of terms where at least one of them is present on the
+        resource.
+    all_: List[str]
+        A list of terms where all elements are present on the resource.
+    none_: List[str]
+        A list of terms that must not be present on the resource.
+
+    Methods
+    -------
+    as_query()
+        Serialises the group query into a dict to be sent to the API.
+    """
 
     def as_query(self):
         r = {}
@@ -84,12 +131,12 @@ class Customers(SubEndpoint):
 
         Parameters
         ----------
-        cursor: Optional[str]
+        cursor: str, optional
             Cursor used in the api to fetch the next chunk in a large response.
-        sort_field: Optional[str]
+        sort_field: str, optional
             Specifies which fields should be used to sort.
             Must be either "default" or "created_at". This is an API restriction.
-        sort_order: Optional[str]
+        sort_order: str, optional
             Order in which to sort. Must be either "ASC" or "DESC".
 
         Yields
@@ -191,43 +238,43 @@ class Customers(SubEndpoint):
             Will fetch all results at once if the response is paginated.
             Otherwise, the response will be fetched in blocks.
 
-        created_at: Optional[Iterable[Datetime, Datetime]]
+        created_at: Tuple[Datetime, Datetime], str
             Filter to Customers who were created between the
             first and second dates in the iterable.
 
-        creation_source: Optional[Iterable]
+        creation_source: Iterable, str
             Filters to customers who were created by any method specified.
             See square.enums.CreationSource for more.
             Cannot be used with not_creation_source.
 
-        not_creation_source: Optional[Iterable]
+        not_creation_source: Iterable, str
             Filters to customers who were not created by any method specified.
             See square.enums.CreationSource for more.
             Cannot be used with creation_source.
 
-        email_address: Optional[Union[str, FuzzyQuery]]
+        email_address: Union[str, FuzzyQuery], str
             Filter by Customers with a specific email address.
             Use a FuzzyQuery object to specify if the request
             should be fuzzy (i.e: Doesn't look for exact match)
 
-        groups: Optional[Union[Iterable, GroupQuery]]
+        groups: Union[Iterable, GroupQuery], str
             Filter by groups a user is in.
             If an Iterable is specified, the Customer must be in all of the
             specified groups. Use GroupQuery to specify all, any or none.
 
-        phone_number: Optional[Union[str, FuzzyQuery]]
+        phone_number: Union[str, FuzzyQuery], str
             Filter by Customers with a specific phone number.
             Use a FuzzyQuery object to specify if the request
             should be fuzzy (i.e: Doesn't look for exact match)
             Note: Must be in E.164 form.
 
-        reference: Optional[Union[str, FuzzyQuery]]
+        reference: Union[str, FuzzyQuery], str
             Filter by a users reference id. Specify a string for exact matching.
             Use a FuzzyQuery object to specify if the request
             should be fuzzy (i.e: Doesn't look for exact match)
             Note: This is case insensitive.
 
-        updated_at: Optional[Iterable[Datetime, Datetime]]
+        updated_at: Iterable[Datetime, Datetime], str
             Filter to Customers who were updated between the
             first and second dates in the iterable.
 

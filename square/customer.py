@@ -308,7 +308,7 @@ class Customer(SquareObject):
             "email_address",
             "phone_number",
         )
-        if not len(set(options.keys()).intersection(required_identifier)):
+        if not set(options.keys()).intersection(required_identifier):
             raise InvalidArgument(
                 "create_customer requires at least one of the following:\n"
                 f"{required_identifier}"

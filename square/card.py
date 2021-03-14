@@ -63,6 +63,7 @@ class Card(SquareObject):
     remove()
         Removes a card on file from a customer.
     """
+
     def __init__(self, *, data, customer, http):
         self._customer = customer
         super().__init__(data=data, http=http)

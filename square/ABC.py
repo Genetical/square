@@ -48,6 +48,7 @@ class CreateUpdatedAtMixin:
     Implements _from_data when the only attributes are:
     id, name, created_at & updated_at
     """
+
     def _from_data(self, group):
         self.id = group.get("id")
         self.name = group.get("name")

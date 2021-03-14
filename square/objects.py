@@ -68,6 +68,7 @@ class Address(SquareObject):
     full_address: str, optional
         Returns a full address (if available).
     """
+
     def _from_data(self, address):
         self.address_line_1 = address.get("address_line_1")
         self.address_line_2 = address.get("address_line_2")

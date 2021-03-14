@@ -73,6 +73,7 @@ class Birthday:
         can help it. You will likely have unexpected behaviour.
 
     """
+
     __slots__ = ("month", "day", "_timestamp", "_dto")
 
     def __repr__(self):
@@ -183,6 +184,7 @@ class Customer(SquareObject):
     unassign_group(group)
         Removes a group membership from a customer.
     """
+
     __slots__ = (
         "id",
         "address",
@@ -386,6 +388,7 @@ class CustomerPreferences:
         emails.
 
     """
+
     def __init__(self, *, data):
         self._from_data(data)
 

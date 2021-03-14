@@ -44,6 +44,7 @@ class Group(CreateUpdatedAtMixin, SquareObject):
     delete()
         Deletes a customer group.
     """
+
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")
 
     def __repr__(self):
@@ -51,9 +52,7 @@ class Group(CreateUpdatedAtMixin, SquareObject):
 
     @classmethod
     def _create(cls, http, idempotency_key, *, name, **group):
-        data = {"group": {**group},
-                "idempotency_key": idempotency_key
-                }
+        data = {"group": {**group}, "idempotency_key": idempotency_key}
         data.update({"name": name})
 
         resp = http.create_group(group=data)

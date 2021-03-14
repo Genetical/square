@@ -57,6 +57,7 @@ class FuzzyQuery:
         Returns a dictionary TextFilter to be sent to the API.
 
     """
+
     def __init__(self, field, *, fuzzy=False):
         self.field = field
         self.fuzzy = fuzzy
@@ -88,6 +89,7 @@ class GroupQuery:
     as_query()
         Serialises the group query into a dict to be sent to the API.
     """
+
     def __init__(self, any_=None, all_=None, none_=None):
         self._any = any_
         self._all = all_

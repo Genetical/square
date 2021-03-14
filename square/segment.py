@@ -36,4 +36,5 @@ class Segment(CreateUpdatedAtMixin, SquareObject):
     updated_at: datetime
         The timestamp when the segment was last updated.
     """
+
     __slots__ = ("id", "name", "created_at", "updated_at", "_http")

@@ -285,9 +285,11 @@ class Customer(SquareObject):
         except KeyError:
             pass
         else:
-            if not isinstance(address, Address):
-                raise InvalidArgument("address field must be of type Address")
-            fields["address"] = address.to_dict()
+            if isinstance(address, Address):
+                fields["address"] = address._to_dict()
+            elif isinstance(address, dict):
+                pass
+            else:
 
         resp = self._http.update_customer(self.id, fields)
 

@@ -1,5 +1,6 @@
 # square.py
 [![DeepSource](https://deepsource.io/gh/Genetical/square.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/Genetical/square/?ref=repository-badge)
+
 An API wrapper for square.
 
 

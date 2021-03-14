@@ -179,7 +179,7 @@ class Address(SquareObject):
     def __str__(self):
         return self.full_address
 
-    def to_dict(self):
+    def _to_dict(self):
         data = {k: v for k, v in self.__dict__.items() if v is not None}
 
         if "country" in data.keys():

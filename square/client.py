@@ -68,10 +68,6 @@ class FuzzyQuery:
 
 
 class GroupQuery:
-    def __init__(self, any=None, all=None, none=None):
-        self._any = any
-        self._all = all
-        self._none = none
     """A filter to select entities based on their group membership.
 
     You can use any combination of the parameters.
@@ -91,6 +87,10 @@ class GroupQuery:
     as_query()
         Serialises the group query into a dict to be sent to the API.
     """
+    def __init__(self, any_=None, all_=None, none_=None):
+        self._any = any_
+        self._all = all_
+        self._none = none_
 
     def as_query(self):
         r = {}

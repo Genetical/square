@@ -23,6 +23,7 @@ from datetime import datetime
 
 import requests
 
+from square.ABC import SquareObject
 from square.customer import Birthday
 from square.errors import *
 from urllib.parse import urljoin, quote
@@ -35,6 +36,8 @@ class SquareEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, (Birthday, datetime)):
             return o.isoformat()
+        elif isinstance(o, SquareObject):
+            return o._to_dict()
 
 
 def generate_route(base):
@@ -179,7 +182,7 @@ class HTTPClient:
                 elif error["category"] == "AUTHENTICATION_ERROR":
                     errors.append(AuthenticationError(error=error))
                 elif error["category"] == "INVALID_REQUEST_ERROR":
-                    errors.append(InvalidRequest(error=error))
+                    errors.append(InvalidRequestError(error=error))
                 elif error["category"] == "RATE_LIMIT_ERROR":
                     errors.append(RateLimited(error=error))
                 elif error["category"] == "PAYMENT_METHOD_ERROR":
@@ -189,7 +192,7 @@ class HTTPClient:
             if len(errors) == 1:
                 raise errors[0]
             else:
-                raise MultipleExceptions(errors=errors)
+                raise MultipleErrors(errors=errors)
 
     @idempotent
     def create_customer(self, **options):

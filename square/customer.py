@@ -321,7 +321,7 @@ class Customer(SquareObject):
         else:
             if not isinstance(address, Address):
                 raise TypeError("address field must be of type Address")
-            options["address"] = address.to_dict()
+            options["address"] = address._to_dict()
 
         resp = http.create_customer(**options)
 

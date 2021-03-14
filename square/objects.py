@@ -96,7 +96,6 @@ class Address(SquareObject):
 
     @property
     def name(self):
-        return (
         """Attempts to construct a full name.
 
         Will return the first name and last name as a string or just
@@ -108,14 +107,15 @@ class Address(SquareObject):
         str or None:
             The full name of the person (If available).
         """
+        _ = (
             f"{self.first_name} {self.last_name}"
             if self.last_name is not None
             else self.first_name
         )
+        return _ if _ else None
 
     @property
     def district(self):
-        return ",".join(
         """Attempts to construct a full district name.
 
         Will return all three administrative districts separated by
@@ -127,6 +127,7 @@ class Address(SquareObject):
         str or None:
             The full administrative district
         """
+        _ = ",".join(
             filter(
                 None,
                 (
@@ -136,10 +137,13 @@ class Address(SquareObject):
                 ),
             )
         )
+        if _:
+            return _
+        else:
+            return None
 
     @property
     def full_address(self):
-        return "\n".join(
         """Attempts to construct a full user address.
 
         Follows the standard format of an international address.
@@ -151,6 +155,7 @@ class Address(SquareObject):
         str or None:
             A fully qualified physical address (Or less).
         """
+        _ = "\n".join(
             [
                 line
                 for line in (
@@ -163,9 +168,13 @@ class Address(SquareObject):
                     self.district,
                     self.country,
                 )
-                if line
+                if line is not None
             ]
         )
+        if _:
+            return _
+        else:
+            return None
 
     def __str__(self):
         return self.full_address

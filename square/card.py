@@ -17,19 +17,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+from square.ABC import SubEndpoint, SquareObject
 from square.enums import CardBrand, CardPrepaidType, try_enum
 from square.objects import Address
 from square.errors import InvalidArgument
 
 
-class Cards:
-    def __init__(self, cards, *, customer, http):
-        self._cards = cards
-        self._customer = customer
-        self._http = http
+class Card(SquareObject):
 
-    def __iter__(self):
-        return self._cards
 
     def new(self, **options):
         try:
@@ -54,9 +49,8 @@ class Cards:
 
 class Card:
     def __init__(self, *, data, customer, http):
-        self._from_data(data)
         self._customer = customer
-        self._http = http
+        super().__init__(data=data, http=http)
 
     def _from_data(self, card):
         self.id = card.get("id")

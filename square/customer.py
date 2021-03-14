@@ -226,7 +226,7 @@ class Customer(SquareObject):
         _ = customer.get("created_at")
         self.created_at = parser.parse(_) if _ is not None else _
         self.creation_source = try_enum(CreationSource, customer.get("creation_source"))
-        self.email_source = customer.get("email_address")
+        self.email_address = customer.get("email_address")
         self.family_name = customer.get("family_name")
         self.given_name = customer.get("given_name")
         self.group_ids = customer.get("group_ids", [])

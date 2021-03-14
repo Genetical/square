@@ -191,7 +191,7 @@ class Customer(SquareObject):
         "company_name",
         "created_at",
         "creation_source",
-        "email_source",
+        "email_address",
         "family_name",
         "given_name",
         "group_ids",

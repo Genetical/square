@@ -19,11 +19,10 @@ DEALINGS IN THE SOFTWARE.
 """
 import pycountry
 
+from square.ABC import SquareObject
 
-class Address:
-    def __init__(self, *, data):
-        self._from_data(data)
 
+class Address(SquareObject):
     """Represents a physical address.
 
     Attributes

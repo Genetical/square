@@ -300,6 +300,10 @@ class Customer(SquareObject):
         return self
 
     def delete(self):
+        """Deletes a customer from a business.
+
+        Any linked cards on file will also be deleted.
+        """
         return self._http.delete_customer(self.id)
 
     @classmethod

@@ -24,6 +24,7 @@ from square.ABC import SubEndpoint
 from square.customer import Customer
 from square.errors import *
 from square.group import Group
+from square.http import idempotent
 from square.segment import Segment
 
 
@@ -461,8 +462,9 @@ class Groups(SubEndpoint):
     def fetch(self, group_id):
         return Group(data=self._http.fetch_group(group_id), http=self._http)
 
+    @idempotent
     def create(self, **options):
-        return Group.create(self._http, **options)
+        return Group._create(self._http, **options)
 
 
 class CustomerSegments(SubEndpoint):

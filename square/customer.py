@@ -290,6 +290,7 @@ class Customer(SquareObject):
             elif isinstance(address, dict):
                 pass
             else:
+                raise InvalidArgument("address field must be of type Address or dict")
 
         resp = self._http.update_customer(self.id, fields)
 

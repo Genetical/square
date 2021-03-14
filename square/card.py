@@ -81,7 +81,7 @@ class Card(SquareObject):
         self.last_4 = card.get("last_4")
         self.prepaid_type = try_enum(CardPrepaidType, card.get("prepaid_type"))
 
-    def delete(self):
+    def remove(self):
         """Removes a card on file from a customer.
 
         Notes

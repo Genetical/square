@@ -99,19 +99,19 @@ class ErrorCode(Enum):
     GATEWAY_TIMEOUT = "GATEWAY_TIMEOUT"
 
 
-class SquareException(Exception):
+class SquareError(Exception):
     pass
 
 
-class ClientException(SquareException):
+class ClientError(SquareError):
     pass
 
 
-class NotFoundError(ClientException):
+class NotFoundError(ClientError):
     pass
 
 
-class HttpException(SquareException):
+class HTTPError(SquareError):
     def __init__(self, *, error):
         self.category = try_enum(ErrorCategory, error.get("category"))
         self.code = try_enum(ErrorCode, error.get("code"))
@@ -121,35 +121,35 @@ class HttpException(SquareException):
         super().__init__(self.detail)
 
 
-class APIError(HttpException):
+class APIError(HTTPError):
     pass
 
 
-class AuthenticationError(HttpException):
+class AuthenticationError(HTTPError):
     pass
 
 
-class InvalidRequest(HttpException):
+class InvalidRequestError(HTTPError):
     pass
 
 
-class RateLimited(HttpException):
+class RateLimited(HTTPError):
     pass
 
 
-class PaymentMethodError(HttpException):
+class PaymentMethodError(HTTPError):
     pass
 
 
-class RefundError(HttpException):
+class RefundError(HTTPError):
     pass
 
 
-class InvalidArgument(ClientException):
+class InvalidArgument(ClientError):
     pass
 
 
-class MultipleExceptions(SquareException):
+class MultipleErrors(SquareError):
     def __init__(self, *, errors):
         self.exceptions = errors
         self.message = (

@@ -249,6 +249,33 @@ class Customer(SquareObject):
         else:
             return _name
 
+    @property
+    def identifier(self):
+        """Returns a an identifier for the user.
+
+        Will return the first non-`None` attribute used for
+        identifying a user.
+
+        Returns
+        -------
+        str:
+            The identifier of the user.
+        """
+        selection_order = (
+            "name",
+            "company_name",
+            "email_address",
+            "phone_number",
+        )
+        attr = None
+        for identifier in selection_order:
+            attr = getattr(self, identifier)
+            if attr is not None:
+                return attr
+
+        return attr
+
+
     def edit(self, **fields):
         """Updates the details of an existing customer.
 

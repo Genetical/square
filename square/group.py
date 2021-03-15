@@ -18,7 +18,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 from square.ABC import SquareObject, CreateUpdatedAtMixin
-from square.http import idempotent
 
 
 class Group(CreateUpdatedAtMixin, SquareObject):

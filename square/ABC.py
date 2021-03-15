@@ -33,11 +33,9 @@ class SquareObject(metaclass=ABCMeta):
         self._from_data(data)
 
     @classmethod
-    @abstractmethod
     def _from_data(cls, data):
         return NotImplemented
 
-    @abstractmethod
     def _to_dict(self):
         return NotImplemented
 
@@ -70,7 +68,6 @@ class SubEndpoint(metaclass=ABCMeta):
     def __init__(self, http):
         self._http = http
 
-    @abstractmethod
     def list(self, **options):
         """Will list all elements within an endpoint.
 

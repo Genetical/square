@@ -275,7 +275,6 @@ class Customer(SquareObject):
 
         return attr
 
-
     def edit(self, **fields):
         """Updates the details of an existing customer.
 
